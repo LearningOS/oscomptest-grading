@@ -16,6 +16,7 @@ interface StudentInfo {
   rank?: number
   total?: number
   lastUpdateAt?: number | null
+  maxgrades: any
 }
 
 interface IProps {
@@ -77,8 +78,9 @@ const ClassRoomRank = (props: IProps) => {
           key: '',
           render(_text: string, record: StudentInfo) {
             let grade = record.grades[item as keyof typeof record.grades];
-            if(grade) {
-              return <span>{grade}</span>
+            let maxgrade = record.maxgrades[item as keyof typeof record.grades];
+            if(maxgrade) {
+              return <span>{grade}/{maxgrade}</span>
             }
             return <span>-</span>
           }
@@ -88,13 +90,15 @@ const ClassRoomRank = (props: IProps) => {
         title: '最后提交时间',
         align: 'center',
         dataIndex: 'lastUpdateAt',
+        width: 350,
         fixed: true,
         key: 'lastUpdateAt',
         render(text: number | null | undefined, record: StudentInfo) {
           if(text == null || text == undefined) {
-            return '-';
+            return <span>-</span>;
           }
-          return dayjs(text).locale("Asia/Beijing").format("YYYY/MM/DD HH:mm");
+          let time = dayjs(text).locale("Asia/Beijing").format("YYYY/MM/DD HH:mm");
+          return <span>{time}</span>;
           // return <AvatarInfo rank={record.rank} avatarURL={record.avatar} name={text} />
         }
       },
