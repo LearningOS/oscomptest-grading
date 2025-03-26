@@ -114,11 +114,7 @@ const ClassRoomRank = (props: IProps) => {
 
   let dataSource: StudentInfo[] = useMemo(() => {
     const studentsList = props.students.map((item, index) => {
-      let total = 0;
-      for(let i in item.grades) {
-        total += toInteger(item.grades[i]);
-      }
-      item['total'] = total;
+      item['total'] = item.grades['all'];
       return item;
     });
     let students = orderBy(studentsList, ['total', 'lastUpdateAt'], ['desc', 'asc']);
